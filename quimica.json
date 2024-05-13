@@ -1,7 +1,9 @@
 [
   {
     "titulo": "Tabela Periódica",
-    "descricao": "Organização dos elementos químicos em ordem crescente de número atômico, distribuídos de acordo com a configuração de seus elétrons e propriedades químicas.",
+    "desc": "Organização dos elementos químicos em ordem crescente de número atômico, distribuídos de acordo com a configuração de seus elétrons e propriedades químicas.",
+    "url_foto": "https://postimg.cc/Q9xRbF42",
+    "url_info": "https://www.todamateria.com.br/tabela-periodica/", 
     "palavras-chave": [
       "elementos",
       "átomos",
