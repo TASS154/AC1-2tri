@@ -116,40 +116,48 @@ app.get('/buscarAssunto', (req, res) => {
 })
 
 app.get('/excluir-Assunto', (req, res) => {
-    res.sendFile(path.join(__dirname, 'excluirassunto'));
+    res.sendFile(path.join(__dirname, 'excluirassunto.html'));
 });
 
 app.post('/excluir-Assunto', (req, res) => {
-    const {titulo} = req.body;
+    const  titulo  = req.body.titulo;
 
-    const BIn = biologia.findIndex(biologia => biologia.titulo.toLowerCase() === NOMEM.toLowerCase());
+    let bioData = fs.readFileSync(bioPath,'utf8');
+    let biologia = JSON.parse(bioData);
 
-    if (BIn === -1) {
+    const BIndex = biologia.findIndex(b => b.titulo.toLowerCase() === titulo.toLowerCase());
+
+    if (BIndex === -1) {
         res.send('<h1>Assunto não encontrado.</h1>');
         return;
     }
 
+    console.log("teste");
     res.send(`
         <script>
             if (confirm('Tem certeza que deseja excluir o artigo ${titulo}?')) {
-                window.location.href = '/excluir-Assunto-confirmado?nome=${titulo}';
+                window.location.href = '/excluir-Assunto-confirmado?titulo=${titulo}';
             } else {
                 window.location.href = '/excluir-Assunto';
             }
-        </script>`);
+        </script>
+        `);
 });
 
 app.get('/excluir-Assunto-confirmado', (req, res) => {
     const titulo = req.query.titulo;
 
-    const BIn = biologia.findIndex(biologia => biologia.titulo.toLowerCase() === titulo.toLowerCase())
+    const BIndex = biologia.findIndex(b => b.titulo.toLowerCase() === titulo.toLowerCase());
+    if (BIndex === -1) {
+        res.send('<h1>Assunto não encontrado.</h1>');
+        return;
+    }
 
-    biologia.splice(BIn, 1);
-
+    biologia.splice(BIndex, 1);
     SalvarB(biologia);
 
     res.send(`<h1> O assunto ${titulo} foi excluido com sucesso! </h1>`)
-})
+});
 
 app.post('/addqui', (req, res) => {
     const novoAssuntoQ = req.body;
