@@ -1,7 +1,9 @@
 [
   {
     "titulo": "Teoria da Relatividade",
-    "descricao": "Teoria proposta por Albert Einstein que revolucionou os conceitos de espaço, tempo e gravidade, introduzindo noções como a dilatação do tempo e a contração do espaço.",
+    "desc": "Teoria proposta por Albert Einstein que revolucionou os conceitos de espaço, tempo e gravidade, introduzindo noções como a dilatação do tempo e a contração do espaço.",
+    "url_foto": "https://postimg.cc/nMnLy2gx",
+    "url_info": "https://brasilescola.uol.com.br/fisica/teorias-da-relatividade.htm",
     "palavras-chave": [
       "Einstein",
       "espaço-tempo",
