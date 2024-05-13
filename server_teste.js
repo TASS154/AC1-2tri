@@ -45,25 +45,31 @@ app.get('/fisica', (req, res) => {
     res.sendFile(path.join(__dirname + '/fisica.json'));
 });
 app.get('/BuscarAssunto', (req, res) => {
- 
-});
-app.get('/buscarAssunto/:titulo', (req,res) =>{
-
     res.sendFile(path.join(__dirname + '/buscarAssunto.html'));
-
+});
+app.get('/buscarAssunto/:titulo', (req,res) => {
     const tituloAssuntoBuscado = req.params.titulo;
 
-    const AssuntoEncontradoB = BuscarAssuntoBiologia(tituloAssuntoBuscado)
-    const AssuntoEncontradoQ = BuscarAssuntoQuimica(tituloAssuntoBuscado)
-    const AssuntoEncontradoF = BuscarAssuntoFisica(tituloAssuntoBuscado)
+    const AssuntoEncontradoB = BuscarAssuntoBiologia(tituloAssuntoBuscado);
+    const AssuntoEncontradoQ = BuscarAssuntoQuimica(tituloAssuntoBuscado);
+    const AssuntoEncontradoF = BuscarAssuntoFisica(tituloAssuntoBuscado);
 
-    if (AssuntoEncontradoB || AssuntoEncontradoF || AssuntoEncontradoQ) {
-        res.send(`<h1>Assunto encontrado: </h1><pre>
-        ${JSON.stringify(AssuntoEncontradoB || AssuntoEncontradoF || AssuntoEncontradoQ, null, 2)} </pre>`);
+    if (AssuntoEncontradoB || AssuntoEncontradoQ || AssuntoEncontradoF) {
+        const DadosPath = path.join(__dirname, 'dados.html');
+        const DadosData = fs.readFileSync(DadosPath, 'utf-8');
+
+        const html = DadosData
+        .replace('{{titulo}}', AssuntoEncontradoQ ? AssuntoEncontradoQ.titulo : (AssuntoEncontradoB ? AssuntoEncontradoB.titulo : AssuntoEncontradoF.titulo))
+        .replace('{{desc}}', AssuntoEncontradoQ ? AssuntoEncontradoQ.desc : (AssuntoEncontradoB ? AssuntoEncontradoB.desc : AssuntoEncontradoF.desc))
+        .replace('{{url_info}}', AssuntoEncontradoQ ? AssuntoEncontradoQ.url_info : (AssuntoEncontradoB ? AssuntoEncontradoB.url_info : AssuntoEncontradoF.url_info))
+        .replace('{{url_foto}}', AssuntoEncontradoQ ? AssuntoEncontradoQ.url_foto : (AssuntoEncontradoB ? AssuntoEncontradoB.url_foto : AssuntoEncontradoF.url_foto));
+
+        res.send(html);
     } else {
-        res.send(`<h1>Assunto não encontrado</h1>`)
+        res.send(`<h1>Assunto não encontrado</h1>`);
     }
 });
+
 
 function BuscarAssuntoBiologia(titulo) {
     return biologia.find(biologia => biologia.titulo.toLowerCase() === titulo.toLowerCase());
@@ -77,7 +83,6 @@ function BuscarAssuntoFisica(titulo) {
 
 function SalvarB() {
     fs.writeFileSync(bioPath ,JSON.stringify(biologia, null, 2))
-    console.log("teste")
 }
 function SalvarQ() {
     fs.writeFileSync(quiPath ,JSON.stringify(quimica, null, 2))
@@ -85,12 +90,6 @@ function SalvarQ() {
 function SalvarF() {
     fs.writeFileSync(fisPath ,JSON.stringify(fisica, null, 2))
 }
-function lerJson(res, file) {
-    fs.readFile(file, function(err, data) {
-        res.end(data);
-    });
-}
-
 
 app.post('/addbio', (req, res) => {
     console.log(req.body)
@@ -110,21 +109,11 @@ app.post('/addbio', (req, res) => {
 });
 
 app.get('/buscarAssunto', (req, res) => {
-    const tituloAssuntoBuscado = req.query.tituloURL; // Obter o título do assunto buscado da query URL
-
-    // Realizar a busca nos seus dados
-    const AssuntoEncontradoB = BuscarAssuntoBiologia(tituloAssuntoBuscado);
-    const AssuntoEncontradoQ = BuscarAssuntoQuimica(tituloAssuntoBuscado);
-    const AssuntoEncontradoF = BuscarAssuntoFisica(tituloAssuntoBuscado);
-
-    if (AssuntoEncontradoB || AssuntoEncontradoQ || AssuntoEncontradoF) {
-        res.send(`<h1>Assunto encontrado:</h1><pre>
-        ${JSON.stringify(AssuntoEncontradoB || AssuntoEncontradoQ || AssuntoEncontradoF, null, 2)}</pre>`);
-    } else {
-        res.send(`<h1>Assunto não encontrado</h1>`);
-    }
-    console.log(tituloURL)
-});
+    var tituloURL
+    const ArtigoBuscado = req.query.tituloURL;
+    res.send("<h1>TESTE</h1>")
+    console.log(ArtigoBuscado)
+})
 
 app.post('/addqui', (req, res) => {
     const novoAssuntoQ = req.body;

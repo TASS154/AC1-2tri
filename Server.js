@@ -47,31 +47,29 @@ app.get('/fisica', (req, res) => {
 app.get('/BuscarAssunto', (req, res) => {
     res.sendFile(path.join(__dirname + '/buscarAssunto.html'));
 });
-app.get('/buscarAssunto/:titulo', (req,res) =>{
-
+app.get('/buscarAssunto/:titulo', (req,res) => {
     const tituloAssuntoBuscado = req.params.titulo;
 
-    const AssuntoEncontradoB = BuscarAssuntoBiologia(tituloAssuntoBuscado)
-    const AssuntoEncontradoQ = BuscarAssuntoQuimica(tituloAssuntoBuscado)
-    const AssuntoEncontradoF = BuscarAssuntoFisica(tituloAssuntoBuscado)
+    const AssuntoEncontradoB = BuscarAssuntoBiologia(tituloAssuntoBuscado);
+    const AssuntoEncontradoQ = BuscarAssuntoQuimica(tituloAssuntoBuscado);
+    const AssuntoEncontradoF = BuscarAssuntoFisica(tituloAssuntoBuscado);
 
-    if (AssuntoEncontradoB || AssuntoEncontradoF || AssuntoEncontradoQ) {
-        const DadosPath = path.join(__dirname, 'dados.html')
-        const DadosData = fs.readFileSync(DadosPath, 'utf-8')
+    if (AssuntoEncontradoB || AssuntoEncontradoQ || AssuntoEncontradoF) {
+        const DadosPath = path.join(__dirname, 'dados.html');
+        const DadosData = fs.readFileSync(DadosPath, 'utf-8');
 
         const html = DadosData
-        .replace('{{titulo}}', AssuntoEncontradoB.titulo,)
-        .replace('{{desc}}', AssuntoEncontradoB.desc,)
-        .replace('{{url_info}}', AssuntoEncontradoB.url_info,)
-        .replace('{{url_foto}}', AssuntoEncontradoB.url_foto,);
+        .replace('{{titulo}}', AssuntoEncontradoQ ? AssuntoEncontradoQ.titulo : (AssuntoEncontradoB ? AssuntoEncontradoB.titulo : AssuntoEncontradoF.titulo))
+        .replace('{{desc}}', AssuntoEncontradoQ ? AssuntoEncontradoQ.desc : (AssuntoEncontradoB ? AssuntoEncontradoB.desc : AssuntoEncontradoF.desc))
+        .replace('{{url_info}}', AssuntoEncontradoQ ? AssuntoEncontradoQ.url_info : (AssuntoEncontradoB ? AssuntoEncontradoB.url_info : AssuntoEncontradoF.url_info))
+        .replace('{{url_foto}}', AssuntoEncontradoQ ? AssuntoEncontradoQ.url_foto : (AssuntoEncontradoB ? AssuntoEncontradoB.url_foto : AssuntoEncontradoF.url_foto));
 
-        res.send(html)
+        res.send(html);
     } else {
-        res.send(`<h1>Assunto não encontrado</h1>`)
+        res.send(`<h1>Assunto não encontrado</h1>`);
     }
-
-    
 });
+
 
 function BuscarAssuntoBiologia(titulo) {
     return biologia.find(biologia => biologia.titulo.toLowerCase() === titulo.toLowerCase());
