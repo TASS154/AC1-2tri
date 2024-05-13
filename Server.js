@@ -115,6 +115,42 @@ app.get('/buscarAssunto', (req, res) => {
     console.log(ArtigoBuscado)
 })
 
+app.get('/excluir-Assunto', (req, res) => {
+    res.sendFile(path.join(__dirname, 'excluirassunto'));
+});
+
+app.post('/excluir-Assunto', (req, res) => {
+    const {titulo} = req.body;
+
+    const BIn = biologia.findIndex(biologia => biologia.titulo.toLowerCase() === NOMEM.toLowerCase());
+
+    if (BIn === -1) {
+        res.send('<h1>Assunto não encontrado.</h1>');
+        return;
+    }
+
+    res.send(`
+        <script>
+            if (confirm('Tem certeza que deseja excluir o artigo ${titulo}?')) {
+                window.location.href = '/excluir-Assunto-confirmado?nome=${titulo}';
+            } else {
+                window.location.href = '/excluir-Assunto';
+            }
+        </script>`);
+});
+
+app.get('/excluir-Assunto-confirmado', (req, res) => {
+    const titulo = req.query.titulo;
+
+    const BIn = biologia.findIndex(biologia => biologia.titulo.toLowerCase() === titulo.toLowerCase())
+
+    biologia.splice(BIn, 1);
+
+    SalvarB(biologia);
+
+    res.send(`<h1> O assunto ${titulo} foi excluido com sucesso! </h1>`)
+})
+
 app.post('/addqui', (req, res) => {
     const novoAssuntoQ = req.body;
     if (quimica.find(quimica => quimica.titulo.toLowerCase() === novoAssuntoQ.titulo.toLowerCase())) {
