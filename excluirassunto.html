@@ -19,7 +19,7 @@
             <button type="button" class="btn btn-success"><a href="fisica">Fisíca</a></button>
             <button type="button" class="btn btn-info" ><a href="biologia">Biologia</a></button>
             <button type="button" class="btn btn-warning"><a href="quimica">Química</a></button>
-            <button type="button" class="btn btn-danger"><a href="assunto.html">Excluir</a></button>
+            <button type="button" class="btn btn-danger"><a href="excluir-Assunto-Biologia">Excluir</a></button>
             <button type="button" class="btn btn-info"><a href="alterarassunto.html">Alterar</a></button>
             <div class="search">
               <button class="btn btn-outline-success" type="submit"><a href="buscarAssunto">Procurar assunto</a></button>
@@ -40,11 +40,28 @@
     </div>
 
     <div>
-        <h1>Excluir Assunto</h1>
-        <form action="/excluir-Assunto" method="POST">
+        <h1>Excluir Assunto: Quimica</h1>
+        <form action="/excluir-Assunto-quimica" method="POST">
           <label for="titulo">Titulo do artigo a ser excluido</label>
           <input type="text" id="titulo" name="titulo" required>
-          <button class="btn btn-primary" type="submit">Excluir</button>
+          <button class="btn btn-info" type="submit">Excluir</button>
+        </form>
+      </div>
+      <div>
+        <h1>Excluir Assunto: Biologia</h1>
+        <form action="/excluir-Assunto-biologia" method="POST">
+          <label for="titulo">Titulo do artigo a ser excluido</label>
+          <input type="text" id="titulo" name="titulo" required>
+          <button class="btn btn-success" type="submit">Excluir</button>
+        </form>
+      </div>
+      <div>  
+        <h1>Excluir Assunto: Fisica</h1>
+        <form action="/excluir-Assunto-fisica" method="POST">
+          <label for="titulo">Tiv>
+      tulo do artigo a ser excluido</label>
+          <input type="text" id="titulo" name="titulo" required>
+          <button class="btn btn-warning" type="submit">Excluir</button>
         </form>
       </div>
 </form>

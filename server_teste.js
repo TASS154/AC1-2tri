@@ -99,15 +99,104 @@ function SalvarF() {
     fs.writeFileSync(fisPath ,JSON.stringify(fisica, null, 2))
 }
 
+//SALVAR EM JSON
+
+//salvar biologia
+
+app.post('/addbio', (req, res) => {
+    console.log(req.body)
+    const novoAssuntoB  = req.body;
+
+    if (biologia.find(biologia => biologia.titulo.toLowerCase() === novoAssuntoB.titulo.toLowerCase())) {
+        res.send("<h1>Este assunto já existe!</h1>");
+        return;
+    }
+
+    biologia.push(novoAssuntoB);
+
+    SalvarB();
+
+    res.send("<h1>Assunto adicionado com sucesso!</h1>");
+
+});
+
+//salvar quimica
+
+app.post('/addqui', (req, res) => {
+    const novoAssuntoQ = req.body;
+    if (quimica.find(quimica => quimica.titulo.toLowerCase() === novoAssuntoQ.titulo.toLowerCase())) {
+        res.send("<h1>Este assunto já existe!</h1>");
+        return;
+    }
+
+    quimica.push(novoAssuntoQ);
+    SalvarQ();
+    res.send("<h1>Assunto adicionado com sucesso!</h1>");
+});
+
+//salvar fisica
+
+app.post('/addfis', (req, res) => {
+    const novoAssuntoF  = req.body;
+
+    if (fisica.find(fisica => fisica.titulo.toLowerCase() === novoAssuntoF.titulo.toLowerCase())) {
+        res.send("<h1>Este assunto já existe!</h1>");
+        return;
+    }
+
+    fisica.push(novoAssuntoF);
+
+    SalvarF();
+
+    res.send("<h1>Assunto adicionado com sucesso!</h1>");
+
+});
+
+
+//ATUALIZAR JSON
+
+//biologia
+
+app.get('/atualizarbiologia', (req, res) => {
+    res.sendFile(path.join(__dirname, 'alterarassunto.html'));
+});
+
+app.post('/atualizarbiologia', (req, res) => {
+    const { titulo, novaDesc, novaUrlInfo, novaUrlFoto} = req.body
+
+    const BIndex = biologia.findIndex(biologia => biologia.titulo.toLowerCase() === titulo.toLowerCase());
+
+    if (BIndex === -1) {
+        res.send('<h1>Assunto não encontrado</h1>')
+        return
+    }
+
+    console.log(req.body)
+    console.log(novaDesc)
+    console.log(novaUrlInfo)
+    console.log(novaUrlFoto)
+    console.log(titulo)
+
+
+    biologia[BIndex].desc = novaDesc
+    biologia[BIndex].url_foto = novaUrlInfo
+    biologia[BIndex].url_info = novaUrlFoto
+
+    SalvarB()
+
+    res.send('<h1>Artigo atualizado com sucesso</h1>')
+})
+
+
 //ROTAS EXCLUSÃO
 
 //bio
 
-app.get('/excluir-Assunto', (req, res) => {
+app.get('/excluir-Assunto-Biologia', (req, res) => {
     res.sendFile(path.join(__dirname, 'excluirassunto.html'));
 });
 
-app.post('/excluir-Assunto', (req, res) => {
+app.post('/excluir-Assunto-Biologia', (req, res) => {
     const  titulo  = req.body.titulo;
 
     let bioData = fs.readFileSync(bioPath,'utf8');
@@ -117,22 +206,21 @@ app.post('/excluir-Assunto', (req, res) => {
 
     if (BIndex === -1) {
         res.send('<h1>Assunto não encontrado.</h1>');
-        return;
     }
 
     console.log("teste");
     res.send(`
         <script>
             if (confirm('Tem certeza que deseja excluir o artigo ${titulo}?')) {
-                window.location.href = '/excluir-Assunto-confirmado?titulo=${titulo}';
+                window.location.href = '/excluir-Assunto-confirmado-Biologia?titulo=${titulo}';
             } else {
-                window.location.href = '/excluir-Assunto';
+                window.location.href = '/excluir-Assunto-Biologia';
             }
         </script>
         `);
 });
 
-app.get('/excluir-Assunto-confirmado', (req, res) => {
+app.get('/excluir-Assunto-confirmado-Biologia', (req, res) => {
     const titulo = req.query.titulo;
 
     const BIndex = biologia.findIndex(b => b.titulo.toLowerCase() === titulo.toLowerCase());
@@ -148,15 +236,14 @@ app.get('/excluir-Assunto-confirmado', (req, res) => {
 });
 
 //quimica
-
-app.get('/excluir-Assunto', (req, res) => {
+app.get('/excluir-Assunto-quimica', (req, res) => {
     res.sendFile(path.join(__dirname, 'excluirassunto.html'));
 });
 
-app.post('/excluir-Assunto', (req, res) => {
-    const  titulo  = req.body.titulo;
+app.post('/excluir-Assunto-quimica', (req, res) => {
+    const titulo = req.body.titulo;
 
-    let quiData = fs.readFileSync(quiPath,'utf8');
+    let quiData = fs.readFileSync(quiPath, 'utf8');
     let quimica = JSON.parse(quiData);
 
     const QIndex = quimica.findIndex(q => q.titulo.toLowerCase() === titulo.toLowerCase());
@@ -166,25 +253,23 @@ app.post('/excluir-Assunto', (req, res) => {
         return;
     }
 
-    console.log("teste");
     res.send(`
         <script>
             if (confirm('Tem certeza que deseja excluir o artigo ${titulo}?')) {
-                window.location.href = '/excluir-Assunto-confirmado?titulo=${titulo}';
+                window.location.href = '/excluir-Assunto-confirmado-quimica?titulo=${titulo}';
             } else {
-                window.location.href = '/excluir-Assunto';
+                window.location.href = '/excluir-Assunto-quimica';
             }
         </script>
         `);
 });
 
-app.get('/excluir-Assunto-confirmado', (req, res) => {
+app.get('/excluir-Assunto-confirmado-quimica', (req, res) => {
     const titulo = req.query.titulo;
 
     const QIndex = quimica.findIndex(q => q.titulo.toLowerCase() === titulo.toLowerCase());
     if (QIndex === -1) {
         res.send('<h1>Assunto não encontrado.</h1>');
-        return;
     }
 
     quimica.splice(QIndex, 1);
@@ -194,15 +279,14 @@ app.get('/excluir-Assunto-confirmado', (req, res) => {
 });
 
 //fisica
-
-app.get('/excluir-Assunto', (req, res) => {
+app.get('/excluir-Assunto-fisica', (req, res) => {
     res.sendFile(path.join(__dirname, 'excluirassunto.html'));
 });
 
-app.post('/excluir-Assunto', (req, res) => {
-    const  titulo  = req.body.titulo;
+app.post('/excluir-Assunto-fisica', (req, res) => {
+    const titulo = req.body.titulo;
 
-    let fisData = fs.readFileSync(fisPath,'utf8');
+    let fisData = fs.readFileSync(fisPath, 'utf8');
     let fisica = JSON.parse(fisData);
 
     const FIndex = fisica.findIndex(f => f.titulo.toLowerCase() === titulo.toLowerCase());
@@ -212,19 +296,18 @@ app.post('/excluir-Assunto', (req, res) => {
         return;
     }
 
-    console.log("teste");
     res.send(`
         <script>
             if (confirm('Tem certeza que deseja excluir o artigo ${titulo}?')) {
-                window.location.href = '/excluir-Assunto-confirmado?titulo=${titulo}';
+                window.location.href = '/excluir-Assunto-confirmado-fisica?titulo=${titulo}';
             } else {
-                window.location.href = '/excluir-Assunto';
+                window.location.href = '/excluir-Assunto-fisica';
             }
         </script>
         `);
 });
 
-app.get('/excluir-Assunto-confirmado', (req, res) => {
+app.get('/excluir-Assunto-confirmado-fisica', (req, res) => {
     const titulo = req.query.titulo;
 
     const FIndex = fisica.findIndex(f => f.titulo.toLowerCase() === titulo.toLowerCase());
@@ -239,120 +322,6 @@ app.get('/excluir-Assunto-confirmado', (req, res) => {
     res.send(`<h1> O assunto ${titulo} foi excluido com sucesso! </h1>`)
 });
 
-
-// Rota para solicitar a exclusão em Biologia
-app.get('/excluir-biologia', (req, res) => {
-    res.sendFile(path.join(__dirname, 'excluirassunto.html'));
-});
-
-// Postar a exclusão em Biologia
-app.post('/excluir-biologia', (req, res) => {
-    const titulo = req.body.titulo;
-    const BIndex = biologia.findIndex(b => b.titulo.toLowerCase() === titulo.toLowerCase());
-    if (BIndex === -1) {
-        res.send('<h1>Assunto não encontrado.</h1>');
-        return;
-    }
-    res.send(`
-        <script>
-            if (confirm('Tem certeza que deseja excluir o artigo ${titulo}?')) {
-                window.location.href = '/confirmar-exclusao-biologia?titulo=${encodeURIComponent(titulo)}';
-            } else {
-                window.location.href = '/excluir-biologia';
-            }
-        </script>
-    `);
-});
-
-// Confirmar exclusão em Biologia
-app.get('/confirmar-exclusao-biologia', (req, res) => {
-    const titulo = req.query.titulo;
-    const BIndex = biologia.findIndex(b => b.titulo.toLowerCase() === titulo.toLowerCase());
-    if (BIndex !== -1) {
-        biologia.splice(BIndex, 1);
-        SalvarB();
-        res.send(`<h1>O assunto '${titulo}' foi excluído com sucesso!</h1>`);
-    } else {
-        res.send('<h1>Assunto não encontrado.</h1>');
-    }
-});
-
-// Rotas similares para Química
-app.get('/excluir-quimica', (req, res) => {
-    res.sendFile(path.join(__dirname, 'excluirassunto.html'));
-});
-app.post('/excluir-quimica', (req, res) => {
-    const titulo = req.body.titulo;
-    const QIndex = quimica.findIndex(q => q.titulo.toLowerCase() === titulo.toLowerCase());
-    if (QIndex === -1) {
-        res.send('<h1>Assunto não encontrado.</h1>');
-        return;
-    }
-    res.send(`
-        <script>
-            if (confirm('Tem certeza que deseja excluir o artigo ${titulo}?')) {
-                window.location.href = '/confirmar-exclusao-quimica?titulo=${encodeURIComponent(titulo)}';
-            } else {
-                window.location.href = '/excluir-quimica';
-            }
-        </script>
-    `);
-});
-app.get('/confirmar-exclusao-quimica', (req, res) => {
-    const titulo = req.query.titulo;
-    const QIndex = quimica.findIndex(q => q.titulo.toLowerCase() === titulo.toLowerCase());
-    if (QIndex !== -1) {
-        quimica.splice(QIndex, 1);
-        SalvarQ();
-        res.send(`<h1>O assunto '${titulo}' foi excluído com sucesso!</h1>`);
-    } else {
-        res.send('<h1>Assunto não encontrado.</h1>');
-    }
-});
-
-// E para Física
-app.get('/excluir-fisica', (req, res) => {
-    res.sendFile(path.join(__dirname, 'excluirassunto.html'));
-});
-app.post('/excluir-fisica', (req, res) => {
-    const titulo = req.body.titulo;
-    const FIndex = fisica.findIndex(f => f.titulo.toLowerCase() === titulo.toLowerCase());
-    if (FIndex === -1) {
-        res.send('<h1>Assunto não encontrado.</h1>');
-        return;
-    }
-    res.send(`
-        <script>
-            if (confirm('Tem certeza que deseja excluir o artigo ${titulo}?')) {
-                window.location.href = '/confirmar-exclusao-fisica?titulo=${encodeURIComponent(titulo)}';
-            } else {
-                window.location.href = '/excluir-fisica';
-            }
-        </script>
-    `);
-});
-app.get('/confirmar-exclusao-fisica', (req, res) => {
-    const titulo = req.query.titulo;
-    const FIndex = fisica.findIndex(f => f.titulo.toLowerCase() === titulo.toLowerCase());
-    if (FIndex !== -1) {
-        fisica.splice(FIndex, 1);
-        SalvarF();
-        res.send(`<h1>O assunto '${titulo}' foi excluído com sucesso!</h1>`);
-    } else {
-        res.send('<h1>Assunto não encontrado.</h1>');
-    }
-});
-//ATUALIZAR JSON
-
-//biologia
-
-app.get('/atualizarAssunto', (req, res) => {
-    res.sendFile(path.join(__dirname, 'alterarassunto.html'));
-});
-
-app.post('/atualizarAssunto', (req, res) => {
-    const { titulo, desc, url_foto, url_info} = req.body
-})
 
 app.listen(port, () => {
 console.log(`servidor iniciado em http://localhost:${port}`)

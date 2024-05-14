@@ -99,6 +99,88 @@ function SalvarF() {
     fs.writeFileSync(fisPath ,JSON.stringify(fisica, null, 2))
 }
 
+//SALVAR EM JSON
+
+//salvar biologia
+
+app.post('/addbio', (req, res) => {
+    console.log(req.body)
+    const novoAssuntoB  = req.body;
+
+    if (biologia.find(biologia => biologia.titulo.toLowerCase() === novoAssuntoB.titulo.toLowerCase())) {
+        res.send("<h1>Este assunto já existe!</h1>");
+        return;
+    }
+
+    biologia.push(novoAssuntoB);
+
+    SalvarB();
+
+    res.send("<h1>Assunto adicionado com sucesso!</h1>");
+
+});
+
+//salvar quimica
+
+app.post('/addqui', (req, res) => {
+    const novoAssuntoQ = req.body;
+    if (quimica.find(quimica => quimica.titulo.toLowerCase() === novoAssuntoQ.titulo.toLowerCase())) {
+        res.send("<h1>Este assunto já existe!</h1>");
+        return;
+    }
+
+    quimica.push(novoAssuntoQ);
+    SalvarQ();
+    res.send("<h1>Assunto adicionado com sucesso!</h1>");
+});
+
+//salvar fisica
+
+app.post('/addfis', (req, res) => {
+    const novoAssuntoF  = req.body;
+
+    if (fisica.find(fisica => fisica.titulo.toLowerCase() === novoAssuntoF.titulo.toLowerCase())) {
+        res.send("<h1>Este assunto já existe!</h1>");
+        return;
+    }
+
+    fisica.push(novoAssuntoF);
+
+    SalvarF();
+
+    res.send("<h1>Assunto adicionado com sucesso!</h1>");
+
+});
+
+
+//ATUALIZAR JSON
+
+//biologia
+
+app.get('/atualizarbiologia', (req, res) => {
+    res.sendFile(path.join(__dirname, 'alterarassunto.html'));
+});
+
+app.post('/atualizarbiologia', (req, res) => {
+    const { titulo, novodesc, novourl_foto, novourl_info} = req.body
+
+    const BIndex = biologia.findIndex(biologia => biologia.titulo.toLowerCase() === titulo.toLowerCase());
+
+    if (BIndex === -1) {
+        res.send('<h1>Assunto não encontrado</h1>')
+        return
+    }
+
+    biologia[BIndex].desc = novodesc
+    biologia[BIndex].url_foto = novourl_foto
+    biologia[BIndex].url_info = novourl_info
+
+    SalvarB()
+
+    res.send('<h1>Artigo atualizado com sucesso</h1>')
+})
+
+
 //ROTAS EXCLUSÃO
 
 //bio
@@ -117,7 +199,6 @@ app.post('/excluir-Assunto', (req, res) => {
 
     if (BIndex === -1) {
         res.send('<h1>Assunto não encontrado.</h1>');
-        return;
     }
 
     console.log("teste");
@@ -184,7 +265,6 @@ app.get('/excluir-Assunto-confirmado', (req, res) => {
     const QIndex = quimica.findIndex(q => q.titulo.toLowerCase() === titulo.toLowerCase());
     if (QIndex === -1) {
         res.send('<h1>Assunto não encontrado.</h1>');
-        return;
     }
 
     quimica.splice(QIndex, 1);
@@ -239,81 +319,6 @@ app.get('/excluir-Assunto-confirmado', (req, res) => {
     res.send(`<h1> O assunto ${titulo} foi excluido com sucesso! </h1>`)
 });
 
-
-//SALVAR EM JSON
-
-//salvar biologia
-
-app.post('/addbio', (req, res) => {
-    console.log(req.body)
-    const novoAssuntoB  = req.body;
-
-    if (biologia.find(biologia => biologia.titulo.toLowerCase() === novoAssuntoB.titulo.toLowerCase())) {
-        res.send("<h1>Este assunto já existe!</h1>");
-        return;
-    }
-
-    biologia.push(novoAssuntoB);
-
-    SalvarB();
-
-    res.send("<h1>Assunto adicionado com sucesso!</h1>");
-
-});
-
-app.get('/buscarAssunto', (req, res) => {
-    var tituloURL
-    const ArtigoBuscado = req.query.tituloURL;
-    res.send("<h1>TESTE</h1>")
-    console.log(ArtigoBuscado)
-})
-
-
-
-//salvar quimica
-
-app.post('/addqui', (req, res) => {
-    const novoAssuntoQ = req.body;
-    if (quimica.find(quimica => quimica.titulo.toLowerCase() === novoAssuntoQ.titulo.toLowerCase())) {
-        res.send("<h1>Este assunto já existe!</h1>");
-        return;
-    }
-
-    quimica.push(novoAssuntoQ);
-    SalvarQ();
-    res.send("<h1>Assunto adicionado com sucesso!</h1>");
-});
-
-//salvar fisica
-
-app.post('/addfis', (req, res) => {
-    const novoAssuntoF  = req.body;
-
-    if (fisica.find(fisica => fisica.titulo.toLowerCase() === novoAssuntoF.titulo.toLowerCase())) {
-        res.send("<h1>Este assunto já existe!</h1>");
-        return;
-    }
-
-    fisica.push(novoAssuntoF);
-
-    SalvarF();
-
-    res.send("<h1>Assunto adicionado com sucesso!</h1>");
-
-});
-
-
-//ATUALIZAR JSON
-
-//biologia
-
-app.get('/atualizarAssunto', (req, res) => {
-    res.sendFile(path.join(__dirname, 'alterarassunto.html'));
-});
-
-app.post('/atualizarAssunto', (req, res) => {
-    const { titulo, desc, url_foto, url_info} = req.body
-})
 
 app.listen(port, () => {
 console.log(`servidor iniciado em http://localhost:${port}`)
