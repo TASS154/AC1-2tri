@@ -158,11 +158,11 @@ app.post('/addfis', (req, res) => {
 //biologia
 
 app.get('/atualizarbiologia', (req, res) => {
-    res.sendFile(path.join(__dirname, 'alterarassunto.html'));
+    res.sendFile(path.join(__dirname, 'alterarbiologia.html'));
 });
 
 app.post('/atualizarbiologia', (req, res) => {
-    const { titulo, novodesc, novourl_foto, novourl_info} = req.body
+    const { titulo, novaDesc, novaUrlInfo, novaUrlFoto} = req.body
 
     const BIndex = biologia.findIndex(biologia => biologia.titulo.toLowerCase() === titulo.toLowerCase());
 
@@ -171,11 +171,82 @@ app.post('/atualizarbiologia', (req, res) => {
         return
     }
 
-    biologia[BIndex].desc = novodesc
-    biologia[BIndex].url_foto = novourl_foto
-    biologia[BIndex].url_info = novourl_info
+    console.log(req.body)
+    console.log(novaDesc)
+    console.log(novaUrlInfo)
+    console.log(novaUrlFoto)
+    console.log(titulo)
+
+
+    biologia[BIndex].desc = novaDesc
+    biologia[BIndex].url_foto = novaUrlInfo
+    biologia[BIndex].url_info = novaUrlFoto
 
     SalvarB()
+
+    res.send('<h1>Artigo atualizado com sucesso</h1>')
+})
+
+//quimica
+
+app.get('/atualizarquimica', (req, res) => {
+    res.sendFile(path.join(__dirname, 'alterarquimica.html'));
+});
+
+app.post('/atualizarquimica', (req, res) => {
+    const { titulo, novaDesc, novaUrlInfo, novaUrlFoto} = req.body
+
+    const QIndex = quimica.findIndex(quimica => quimica.titulo.toLowerCase() === titulo.toLowerCase());
+
+    if (QIndex === -1) {
+        res.send('<h1>Assunto não encontrado</h1>')
+        return
+    }
+
+    console.log(req.body)
+    console.log(novaDesc)
+    console.log(novaUrlInfo)
+    console.log(novaUrlFoto)
+    console.log(titulo)
+
+
+    quimica[QIndex].desc = novaDesc
+    quimica[QIndex].url_foto = novaUrlInfo
+    quimica[QIndex].url_info = novaUrlFoto
+
+    SalvarQ()
+
+    res.send('<h1>Artigo atualizado com sucesso</h1>')
+})
+
+//fisica
+
+app.get('/atualizarfisica', (req, res) => {
+    res.sendFile(path.join(__dirname, 'alterarfisica.html'));
+});
+
+app.post('/atualizarfisica', (req, res) => {
+    const { titulo, novaDesc, novaUrlInfo, novaUrlFoto} = req.body
+
+    const FIndex = fisica.findIndex(fisica => fisica.titulo.toLowerCase() === titulo.toLowerCase());
+
+    if (FIndex === -1) {
+        res.send('<h1>Assunto não encontrado</h1>')
+        return
+    }
+
+    console.log(req.body)
+    console.log(novaDesc)
+    console.log(novaUrlInfo)
+    console.log(novaUrlFoto)
+    console.log(titulo)
+
+
+    fisica[FIndex].desc = novaDesc
+    fisica[FIndex].url_foto = novaUrlInfo
+    fisica[FIndex].url_info = novaUrlFoto
+
+    SalvarF()
 
     res.send('<h1>Artigo atualizado com sucesso</h1>')
 })
@@ -185,11 +256,11 @@ app.post('/atualizarbiologia', (req, res) => {
 
 //bio
 
-app.get('/excluir-Assunto', (req, res) => {
+app.get('/excluir-Assunto-Biologia', (req, res) => {
     res.sendFile(path.join(__dirname, 'excluirassunto.html'));
 });
 
-app.post('/excluir-Assunto', (req, res) => {
+app.post('/excluir-Assunto-Biologia', (req, res) => {
     const  titulo  = req.body.titulo;
 
     let bioData = fs.readFileSync(bioPath,'utf8');
@@ -205,15 +276,15 @@ app.post('/excluir-Assunto', (req, res) => {
     res.send(`
         <script>
             if (confirm('Tem certeza que deseja excluir o artigo ${titulo}?')) {
-                window.location.href = '/excluir-Assunto-confirmado?titulo=${titulo}';
+                window.location.href = '/excluir-Assunto-confirmado-Biologia?titulo=${titulo}';
             } else {
-                window.location.href = '/excluir-Assunto';
+                window.location.href = '/excluir-Assunto-Biologia';
             }
         </script>
         `);
 });
 
-app.get('/excluir-Assunto-confirmado', (req, res) => {
+app.get('/excluir-Assunto-confirmado-Biologia', (req, res) => {
     const titulo = req.query.titulo;
 
     const BIndex = biologia.findIndex(b => b.titulo.toLowerCase() === titulo.toLowerCase());
@@ -229,15 +300,14 @@ app.get('/excluir-Assunto-confirmado', (req, res) => {
 });
 
 //quimica
-
-app.get('/excluir-Assunto', (req, res) => {
+app.get('/excluir-Assunto-quimica', (req, res) => {
     res.sendFile(path.join(__dirname, 'excluirassunto.html'));
 });
 
-app.post('/excluir-Assunto', (req, res) => {
-    const  titulo  = req.body.titulo;
+app.post('/excluir-Assunto-quimica', (req, res) => {
+    const titulo = req.body.titulo;
 
-    let quiData = fs.readFileSync(quiPath,'utf8');
+    let quiData = fs.readFileSync(quiPath, 'utf8');
     let quimica = JSON.parse(quiData);
 
     const QIndex = quimica.findIndex(q => q.titulo.toLowerCase() === titulo.toLowerCase());
@@ -247,19 +317,18 @@ app.post('/excluir-Assunto', (req, res) => {
         return;
     }
 
-    console.log("teste");
     res.send(`
         <script>
             if (confirm('Tem certeza que deseja excluir o artigo ${titulo}?')) {
-                window.location.href = '/excluir-Assunto-confirmado?titulo=${titulo}';
+                window.location.href = '/excluir-Assunto-confirmado-quimica?titulo=${titulo}';
             } else {
-                window.location.href = '/excluir-Assunto';
+                window.location.href = '/excluir-Assunto-quimica';
             }
         </script>
         `);
 });
 
-app.get('/excluir-Assunto-confirmado', (req, res) => {
+app.get('/excluir-Assunto-confirmado-quimica', (req, res) => {
     const titulo = req.query.titulo;
 
     const QIndex = quimica.findIndex(q => q.titulo.toLowerCase() === titulo.toLowerCase());
@@ -274,15 +343,14 @@ app.get('/excluir-Assunto-confirmado', (req, res) => {
 });
 
 //fisica
-
-app.get('/excluir-Assunto', (req, res) => {
+app.get('/excluir-Assunto-fisica', (req, res) => {
     res.sendFile(path.join(__dirname, 'excluirassunto.html'));
 });
 
-app.post('/excluir-Assunto', (req, res) => {
-    const  titulo  = req.body.titulo;
+app.post('/excluir-Assunto-fisica', (req, res) => {
+    const titulo = req.body.titulo;
 
-    let fisData = fs.readFileSync(fisPath,'utf8');
+    let fisData = fs.readFileSync(fisPath, 'utf8');
     let fisica = JSON.parse(fisData);
 
     const FIndex = fisica.findIndex(f => f.titulo.toLowerCase() === titulo.toLowerCase());
@@ -292,19 +360,18 @@ app.post('/excluir-Assunto', (req, res) => {
         return;
     }
 
-    console.log("teste");
     res.send(`
         <script>
             if (confirm('Tem certeza que deseja excluir o artigo ${titulo}?')) {
-                window.location.href = '/excluir-Assunto-confirmado?titulo=${titulo}';
+                window.location.href = '/excluir-Assunto-confirmado-fisica?titulo=${titulo}';
             } else {
-                window.location.href = '/excluir-Assunto';
+                window.location.href = '/excluir-Assunto-fisica';
             }
         </script>
         `);
 });
 
-app.get('/excluir-Assunto-confirmado', (req, res) => {
+app.get('/excluir-Assunto-confirmado-fisica', (req, res) => {
     const titulo = req.query.titulo;
 
     const FIndex = fisica.findIndex(f => f.titulo.toLowerCase() === titulo.toLowerCase());

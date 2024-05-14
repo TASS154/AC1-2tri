@@ -4,5 +4,23 @@
     "desc": "Organização dos elementos químicos em ordem crescente de número atômico, distribuídos de acordo com a configuração de seus elétrons e propriedades químicas.",
     "url_foto": "https://postimg.cc/Q9xRbF42",
     "url_info": "https://www.todamateria.com.br/tabela-periodica/"
+  },
+  {
+    "titulo": "Ligações Químicas",
+    "desc": "As ligações químicas são interações entre átomos que mantêm os átomos unidos na formação de moléculas ou compostos. Existem três tipos principais de ligações: iônica, covalente e metálica.",
+    "url_info": "https://www.infoescola.com/quimica/ligacoes-quimicas/",
+    "url_foto": "https://postimg.cc/svBn2Df8"
+  },
+  {
+    "titulo": "Reações Químicas",
+    "desc": "As reações químicas são processos nos quais uma ou mais substâncias são convertidas em outras substâncias por meio da reorganização dos átomos. Elas envolvem a quebra de ligações químicas nos reagentes e a formação de novas ligações nos produtos.",
+    "url_info": "https://www.sobiologia.com.br/conteudos/quimica/reacoesquimicas.php",
+    "url_foto": "https://postimg.cc/y3gN52qG"
+  },
+  {
+    "titulo": "Equilíbrio Químico",
+    "desc": "O equilíbrio químico é alcançado em uma reação química quando a taxa da reação direta é igual à taxa da reação inversa, resultando em concentrações constantes dos reagentes e produtos. Isso ocorre quando as quantidades relativas de substâncias no sistema não mudam com o tempo.",
+    "url_info": "https://www.todamateria.com.br/equilibrio-quimico/",
+    "url_foto": "https://postimg.cc/mc3KJq6S"
   }
 ]

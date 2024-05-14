@@ -4,5 +4,23 @@
     "desc": "Teoria proposta por Albert Einstein que revolucionou os conceitos de espaço, tempo e gravidade, introduzindo noções como a dilatação do tempo e a contração do espaço.",
     "url_foto": "https://postimg.cc/nMnLy2gx",
     "url_info": "https://brasilescola.uol.com.br/fisica/teorias-da-relatividade.htm"
+  },
+  {
+    "titulo": "Leis de Newton",
+    "desc": "As leis de Newton, também conhecidas como leis do movimento, são três princípios fundamentais da física formulados por Isaac Newton. Elas descrevem o comportamento do movimento de corpos e estabelecem a relação entre a força aplicada a um objeto e a sua aceleração.",
+    "url_info": "https://www.sobiologia.com.br/conteudos/Fisica/leisnewton.php",
+    "url_foto": "https://postimg.cc/7C4nqd1S"
+  },
+  {
+    "titulo": "Gravitação Universal",
+    "desc": "A gravitação universal é a lei física que descreve a atração mútua entre objetos com massa. Foi formulada por Isaac Newton e afirma que a força de atração entre dois corpos é diretamente proporcional ao produto de suas massas e inversamente proporcional ao quadrado da distância entre eles.",
+    "url_info": "https://www.todamateria.com.br/gravitacao-universal/",
+    "url_foto": "https://postimg.cc/Q9xRbF42"
+  },
+  {
+    "titulo": "Óptica Geométrica",
+    "desc": "A óptica geométrica é um ramo da física que estuda o comportamento da luz, considerando-a como um conjunto de raios. Ela descreve fenômenos como reflexão, refração, formação de imagens por espelhos e lentes, sem considerar as propriedades ondulatórias da luz.",
+    "url_info": "https://www.infoescola.com/fisica/optica-geometrica/",
+    "url_foto": "https://postimg.cc/8fmtpRZV"
   }
 ]

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,32 +41,21 @@
       </nav>
     </div>
 
-    <div>
-        <h1>Excluir Assunto: Quimica</h1>
-        <form action="/excluir-Assunto-quimica" method="POST">
-          <label for="titulo">Titulo do artigo a ser excluido</label>
-          <input type="text" id="titulo" name="titulo" required>
-          <button class="btn btn-info" type="submit">Excluir</button>
-        </form>
+    <h1>Alterar um Assunto Quimica</h1>
+    <form action="/atualizarquimica" method="POST">
+   <label for="titulo">Nome do Assunto:</label><br>
+   <input type="text" id="titulo" name="titulo" required /><br>
+   <label for="novaDesc">Nova descrição:</label>
+        <textarea class="form-control" name="novaDesc" required></textarea>
+        <label for="novaUrlInfo">Nova Url info:</label><br>
+        <input type="url" id="novaUrlInfo" name="novaUrlInfo" required /><br>
+        <br>
+        <label for="novaUrlFoto">Nova Url da foto:</label><br>
+        <input type="url" id="novaUrlFoto" name="novaUrlFoto" required /><br>
       </div>
-      <div>
-        <h1>Excluir Assunto: Biologia</h1>
-        <form action="/excluir-Assunto-biologia" method="POST">
-          <label for="titulo">Titulo do artigo a ser excluido</label>
-          <input type="text" id="titulo" name="titulo" required>
-          <button class="btn btn-success" type="submit">Excluir</button>
-        </form>
-      </div>
-      <div>  
-        <h1>Excluir Assunto: Fisica</h1>
-        <form action="/excluir-Assunto-fisica" method="POST">
-          <label for="titulo">Tiv>
-      tulo do artigo a ser excluido</label>
-          <input type="text" id="titulo" name="titulo" required>
-          <button class="btn btn-warning" type="submit">Excluir</button>
-        </form>
-      </div>
+      <button class="btn btn-primary" type="submit">Atualizar</button>
+</div>
 </form>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
-</html>
+    </html>
