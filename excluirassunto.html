@@ -41,12 +41,12 @@
 
     <div>
         <h1>Excluir Assunto</h1>
-        <div class="input-group">
-            <span class="input-group-text">Assunto</span>
-            <textarea class="form-control" aria-label="With textarea"></textarea>
-          </div>
+        <form action="/excluir-Assunto" method="POST">
+          <label for="titulo">Titulo do artigo a ser excluido</label>
+          <input type="text" id="titulo" name="titulo" required>
           <button class="btn btn-primary" type="submit">Excluir</button>
-    </div>
+        </form>
+      </div>
 </form>
 </body>
 </html>
